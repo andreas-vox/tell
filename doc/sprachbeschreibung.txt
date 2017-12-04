@@ -1,0 +1,38 @@
+
+This document introduces "TellTell" a language for requirements capturing and simulation.
+
+TellTell is a semi-formal language. It's not a programming language and it's not 
+exactly a specification language. Still, it has enough structure to allow simulations.
+
+TellTell is based on Gherkin, a language used in behaviour driven development to 
+describe features and scenarios. The toplevel structure in TellTell is a story.
+As in Ghrekin, stories contain scenarios and scenarios consist of given/when/then steps. 
+Differently to Gherkin, TellTell recognizes names and uses type annotations for names.
+Each story also includes a list of "about:" names, which introduces the objects
+that the story desxribes. This is similar to a list of dramatis personae in a drama
+or the ingredoents list in a recipe.
+In addition, TellTell supports the concept of stepwise refinement. 
+When starting to write a story, one often uses abstract phrases to describe some 
+concept and explains the details of the concept later. TellTell recognizes
+refinements of the form "where: abstract concept = detailed description", which
+replaces each occurance of "abstract concept" in the story with "detailed description".
+The detailed description itself can also contain other abstract concepts, which are 
+in turn refined by other "where:" statements.
+
+TellTell stories can be given meaning by interpreting steps as logical propositions.
+In each given state, a proposition can be either true or false. This allows a simple
+simulation of scenarios: A simulation can have three outsomcesa: success, failure or not applicable.
+Each step has to evaluate to true for the scenario to succeed. If a "given:" or a "when:" 
+step evaluates to false, the scenario is not applicable. If a "then:" step evaluates to false,
+the scenario fails.
+"then:" steps can also change the current state. A step of the form "then: some state object := expression"
+causes the state to change to a new one, where the proposition "some state object = expression" 
+evaluates to true. 
+
+TellTell stories can also interpreted as describing an abstract automaton. 
+"given:" steps describe the state of the automaton. "when:" steps match an input to 
+the automaton or describe a precondition. "then:" steps describe an output, 
+a state change or a postcondition. If a story has enough scenarios, it's even possible
+to provide the full specification of an automaton in TellTell. But that is not 
+the main purpose of TellTell; usually one makes an "open world" assumption that allows
+more scenarios than written down. 
